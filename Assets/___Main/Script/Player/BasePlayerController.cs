@@ -1,35 +1,37 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
 public abstract class BasePlayerController : MonoBehaviour
 {
-    
+
     [SerializeField] protected CharacterController _controller;
-
     [SerializeField] private float _rotationSpeed;
+    [SerializeField] private float _moveSpeed;
+    [SerializeField] private LayerMask _inputHelperLayerMask;
 
+    #region inputVariables
+    private Vector2 _mousePosition;
+    private Action<float> _onShootHappen;
+    private float _aimInput;
+    private float _moveInput;
+    #endregion
 
-
- 
-
-
-
-  
-
-    public void x(InputAction.CallbackContext context)
+    protected virtual void Awake()
     {
-        if (!context.performed) return;
-       print("pressed");
+
     }
+
 
     protected virtual void Update()
     {
         ApplyPlayerGravity();
         ApplyPlayerRotation();
+        ApplyPlayerMove();
     }
 
     private float _gravity;
@@ -41,22 +43,55 @@ public abstract class BasePlayerController : MonoBehaviour
     }
 
 
-
     private void ApplyPlayerRotation()
     {
-      //  var keyboard = Keyboard.current;
 
-
-     
-        //Vector2 lookDirection = _controlls.Player.LookDirection.ReadValue<Vector2>();
-        //print(lookDirection);
-
-        //print(_controlls.Player.Shoot.ReadValue<bool>());
-
-        //   Ray ray = Camera.main.ScreenPointToRay();
-
-        //       transform.rotation = Quaternion.LerpUnclamped(transform.rotation, Quaternion.Euler(0,goalW,0), _rotationSpeed);
+        Ray ray = Camera.main.ScreenPointToRay(_mousePosition);
+        RaycastHit inputRaycastHit;
+        Physics.Raycast(ray, out inputRaycastHit, _inputHelperLayerMask);
+        print(inputRaycastHit.point);
+        if (inputRaycastHit.point.z > transform.position.z)
+            transform.rotation = Quaternion.LerpUnclamped(transform.rotation, Quaternion.Euler(0, 0, 0), _rotationSpeed);
+        else
+            transform.rotation = Quaternion.LerpUnclamped(transform.rotation, Quaternion.Euler(0, 180, 0), _rotationSpeed);
     }
 
- 
+    private void ApplyPlayerMove()
+    {
+        _controller.Move(new Vector3(0, 0, _moveInput * _moveSpeed));
+    }
+
+
+
+    #region Input Callbacks
+
+
+    public void OnShoot(InputValue input)
+    {
+        _onShootHappen?.Invoke(input.Get<float>());
+    }
+
+    public void OnAim(InputValue input)
+    {
+
+        _aimInput = input.Get<float>();
+    }
+
+    public void OnLookDirection(InputValue input)
+    {
+        //print(input.Get<Vector2>());
+        _mousePosition = input.Get<Vector2>();
+    }
+
+    public void OnMove(InputValue input)
+    {
+        //print(input.Get<float>());
+        _moveInput = input.Get<float>();
+    }
+
+
+
+
+    #endregion
+
 }

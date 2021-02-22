@@ -6,6 +6,11 @@ public class PlayerController : BasePlayerController
 {
 
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
 
     protected override void Update()
     {

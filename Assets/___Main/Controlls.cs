@@ -32,10 +32,10 @@ public class @Controlls : IInputActionCollection, IDisposable
                     ""id"": ""6043c883-8c3d-4b61-83d4-7d6a0a488a9f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press""
+                    ""interactions"": """"
                 },
                 {
-                    ""name"": ""Dpad"",
+                    ""name"": ""Move"",
                     ""type"": ""Button"",
                     ""id"": ""9d104766-b542-4161-abff-847e7a900343"",
                     ""expectedControlType"": ""Button"",
@@ -48,7 +48,7 @@ public class @Controlls : IInputActionCollection, IDisposable
                     ""id"": ""ccffc11d-b44c-40ac-98e1-617b762caa70"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
-                    ""interactions"": ""Press""
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -67,7 +67,7 @@ public class @Controlls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""205aadc2-290c-4855-9f88-871765b564d7"",
                     ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Aim"",
@@ -78,10 +78,10 @@ public class @Controlls : IInputActionCollection, IDisposable
                     ""name"": ""Move"",
                     ""id"": ""3057568f-1aed-42e2-bb6c-c48422177018"",
                     ""path"": ""1DAxis"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Dpad"",
+                    ""action"": ""Move"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -92,7 +92,7 @@ public class @Controlls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Dpad"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -103,7 +103,7 @@ public class @Controlls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Dpad"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -144,7 +144,7 @@ public class @Controlls : IInputActionCollection, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
-        m_Player_Dpad = m_Player.FindAction("Dpad", throwIfNotFound: true);
+        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_LookDirection = m_Player.FindAction("LookDirection", throwIfNotFound: true);
     }
 
@@ -197,7 +197,7 @@ public class @Controlls : IInputActionCollection, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Shoot;
     private readonly InputAction m_Player_Aim;
-    private readonly InputAction m_Player_Dpad;
+    private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_LookDirection;
     public struct PlayerActions
     {
@@ -205,7 +205,7 @@ public class @Controlls : IInputActionCollection, IDisposable
         public PlayerActions(@Controlls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
-        public InputAction @Dpad => m_Wrapper.m_Player_Dpad;
+        public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @LookDirection => m_Wrapper.m_Player_LookDirection;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -222,9 +222,9 @@ public class @Controlls : IInputActionCollection, IDisposable
                 @Aim.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
                 @Aim.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
                 @Aim.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
-                @Dpad.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDpad;
-                @Dpad.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDpad;
-                @Dpad.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDpad;
+                @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @LookDirection.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookDirection;
                 @LookDirection.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookDirection;
                 @LookDirection.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookDirection;
@@ -238,9 +238,9 @@ public class @Controlls : IInputActionCollection, IDisposable
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
-                @Dpad.started += instance.OnDpad;
-                @Dpad.performed += instance.OnDpad;
-                @Dpad.canceled += instance.OnDpad;
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
                 @LookDirection.started += instance.OnLookDirection;
                 @LookDirection.performed += instance.OnLookDirection;
                 @LookDirection.canceled += instance.OnLookDirection;
@@ -261,7 +261,7 @@ public class @Controlls : IInputActionCollection, IDisposable
     {
         void OnShoot(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
-        void OnDpad(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
         void OnLookDirection(InputAction.CallbackContext context);
     }
 }
