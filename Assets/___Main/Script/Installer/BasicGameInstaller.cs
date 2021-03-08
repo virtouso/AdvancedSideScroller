@@ -8,5 +8,8 @@ public class BasicGameInstaller : MonoInstaller
 
         Container.Bind<PlayerController>().FromComponentInHierarchy().AsSingle();
         Container.Bind<CameraSideFollow>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<BaseLevelScenarioManager>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<BasicGameManager>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<PoolManager>().FromComponentInHierarchy().AsSingle();
     }
 }

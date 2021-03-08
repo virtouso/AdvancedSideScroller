@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b445613e92bbe41bcb4cc2e48a74ef, type: 3}
+  m_Name: Weapon List
+  m_EditorClassIdentifier: 
+  _weaponListModel:
+    Knife: {fileID: 6781200143531409565, guid: edc720bf754375243a68da1cb5854836, type: 3}
+    Pistol: {fileID: 2316934889796818101, guid: ddd94ba6e410ad6408f497ed72cb908c,
+      type: 3}
+    Rifle: {fileID: 7510530904401970988, guid: 8b4af48f63c64a04fbe915c1ad47c34a, type: 3}
