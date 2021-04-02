@@ -43,6 +43,14 @@ public class @Controlls : IInputActionCollection, IDisposable
                     ""interactions"": ""Press""
                 },
                 {
+                    ""name"": ""MoveVertical"",
+                    ""type"": ""Button"",
+                    ""id"": ""3229b4b8-857a-4c41-8903-773d1ef08bcc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
                     ""name"": ""LookDirection"",
                     ""type"": ""Value"",
                     ""id"": ""ccffc11d-b44c-40ac-98e1-617b762caa70"",
@@ -102,6 +110,14 @@ public class @Controlls : IInputActionCollection, IDisposable
                     ""name"": ""SelectMelee"",
                     ""type"": ""Button"",
                     ""id"": ""4f07b33c-1b40-4cd3-a1a6-c5dbe1ec95e9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SelectDrone"",
+                    ""type"": ""Button"",
+                    ""id"": ""314887df-8d3e-4989-a5f1-511f2b8a60e5"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -269,6 +285,50 @@ public class @Controlls : IInputActionCollection, IDisposable
                     ""action"": ""Vault"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a93a3c92-55f5-4ad9-b0cc-fa6d4e6f184f"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""SelectDrone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Move"",
+                    ""id"": ""0eb2471a-569f-4ee5-92f5-737784306ffc"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MoveVertical"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""47e46074-278d-4047-a221-4055d4fc4de0"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MoveVertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""1927657a-15a2-480a-8332-ba3673e9fdcd"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MoveVertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -297,6 +357,7 @@ public class @Controlls : IInputActionCollection, IDisposable
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_MoveVertical = m_Player.FindAction("MoveVertical", throwIfNotFound: true);
         m_Player_LookDirection = m_Player.FindAction("LookDirection", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
@@ -305,6 +366,7 @@ public class @Controlls : IInputActionCollection, IDisposable
         m_Player_SelectPrimary = m_Player.FindAction("SelectPrimary", throwIfNotFound: true);
         m_Player_SelectSecondary = m_Player.FindAction("SelectSecondary", throwIfNotFound: true);
         m_Player_SelectMelee = m_Player.FindAction("SelectMelee", throwIfNotFound: true);
+        m_Player_SelectDrone = m_Player.FindAction("SelectDrone", throwIfNotFound: true);
         m_Player_Vault = m_Player.FindAction("Vault", throwIfNotFound: true);
     }
 
@@ -358,6 +420,7 @@ public class @Controlls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Shoot;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_MoveVertical;
     private readonly InputAction m_Player_LookDirection;
     private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_Run;
@@ -366,6 +429,7 @@ public class @Controlls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_SelectPrimary;
     private readonly InputAction m_Player_SelectSecondary;
     private readonly InputAction m_Player_SelectMelee;
+    private readonly InputAction m_Player_SelectDrone;
     private readonly InputAction m_Player_Vault;
     public struct PlayerActions
     {
@@ -374,6 +438,7 @@ public class @Controlls : IInputActionCollection, IDisposable
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @MoveVertical => m_Wrapper.m_Player_MoveVertical;
         public InputAction @LookDirection => m_Wrapper.m_Player_LookDirection;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputAction @Run => m_Wrapper.m_Player_Run;
@@ -382,6 +447,7 @@ public class @Controlls : IInputActionCollection, IDisposable
         public InputAction @SelectPrimary => m_Wrapper.m_Player_SelectPrimary;
         public InputAction @SelectSecondary => m_Wrapper.m_Player_SelectSecondary;
         public InputAction @SelectMelee => m_Wrapper.m_Player_SelectMelee;
+        public InputAction @SelectDrone => m_Wrapper.m_Player_SelectDrone;
         public InputAction @Vault => m_Wrapper.m_Player_Vault;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -401,6 +467,9 @@ public class @Controlls : IInputActionCollection, IDisposable
                 @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @MoveVertical.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveVertical;
+                @MoveVertical.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveVertical;
+                @MoveVertical.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveVertical;
                 @LookDirection.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookDirection;
                 @LookDirection.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookDirection;
                 @LookDirection.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookDirection;
@@ -425,6 +494,9 @@ public class @Controlls : IInputActionCollection, IDisposable
                 @SelectMelee.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectMelee;
                 @SelectMelee.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectMelee;
                 @SelectMelee.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectMelee;
+                @SelectDrone.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectDrone;
+                @SelectDrone.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectDrone;
+                @SelectDrone.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectDrone;
                 @Vault.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVault;
                 @Vault.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVault;
                 @Vault.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVault;
@@ -441,6 +513,9 @@ public class @Controlls : IInputActionCollection, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @MoveVertical.started += instance.OnMoveVertical;
+                @MoveVertical.performed += instance.OnMoveVertical;
+                @MoveVertical.canceled += instance.OnMoveVertical;
                 @LookDirection.started += instance.OnLookDirection;
                 @LookDirection.performed += instance.OnLookDirection;
                 @LookDirection.canceled += instance.OnLookDirection;
@@ -465,6 +540,9 @@ public class @Controlls : IInputActionCollection, IDisposable
                 @SelectMelee.started += instance.OnSelectMelee;
                 @SelectMelee.performed += instance.OnSelectMelee;
                 @SelectMelee.canceled += instance.OnSelectMelee;
+                @SelectDrone.started += instance.OnSelectDrone;
+                @SelectDrone.performed += instance.OnSelectDrone;
+                @SelectDrone.canceled += instance.OnSelectDrone;
                 @Vault.started += instance.OnVault;
                 @Vault.performed += instance.OnVault;
                 @Vault.canceled += instance.OnVault;
@@ -486,6 +564,7 @@ public class @Controlls : IInputActionCollection, IDisposable
         void OnShoot(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+        void OnMoveVertical(InputAction.CallbackContext context);
         void OnLookDirection(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
@@ -494,6 +573,7 @@ public class @Controlls : IInputActionCollection, IDisposable
         void OnSelectPrimary(InputAction.CallbackContext context);
         void OnSelectSecondary(InputAction.CallbackContext context);
         void OnSelectMelee(InputAction.CallbackContext context);
+        void OnSelectDrone(InputAction.CallbackContext context);
         void OnVault(InputAction.CallbackContext context);
     }
 }

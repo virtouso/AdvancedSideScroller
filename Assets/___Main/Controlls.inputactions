@@ -30,6 +30,14 @@
                     "interactions": "Press"
                 },
                 {
+                    "name": "MoveVertical",
+                    "type": "Button",
+                    "id": "3229b4b8-857a-4c41-8903-773d1ef08bcc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
                     "name": "LookDirection",
                     "type": "Value",
                     "id": "ccffc11d-b44c-40ac-98e1-617b762caa70",
@@ -89,6 +97,14 @@
                     "name": "SelectMelee",
                     "type": "Button",
                     "id": "4f07b33c-1b40-4cd3-a1a6-c5dbe1ec95e9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "SelectDrone",
+                    "type": "Button",
+                    "id": "314887df-8d3e-4989-a5f1-511f2b8a60e5",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -256,6 +272,50 @@
                     "action": "Vault",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a93a3c92-55f5-4ad9-b0cc-fa6d4e6f184f",
+                    "path": "<Keyboard>/4",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectDrone",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Move",
+                    "id": "0eb2471a-569f-4ee5-92f5-737784306ffc",
+                    "path": "1DAxis",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MoveVertical",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "47e46074-278d-4047-a221-4055d4fc4de0",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MoveVertical",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "1927657a-15a2-480a-8332-ba3673e9fdcd",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MoveVertical",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

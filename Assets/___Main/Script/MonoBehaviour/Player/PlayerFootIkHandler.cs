@@ -34,15 +34,12 @@ public class PlayerFootIkHandler : MonoBehaviour
         if (_leftFoot == null) _leftFoot = new GameObject("Left Foot");
     }
 
-
+    private void Start() { }
 
 
     private void OnAnimatorIK(int layerIndex)
     {
         if (_footIkState == FootIkState.DontApply) return;
-
-
-
 
         float speed = _animator.GetFloat("speed");
 

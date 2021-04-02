@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7611dfbf29b1d2048ab95424f8cf09fa, type: 3}
+  m_Name: Move Right
+  m_EditorClassIdentifier: 
+  _scoreCalculator:
+  - {fileID: 11400000, guid: 52ce8a12b508c424583547940c6c2801, type: 2}
+  - {fileID: 11400000, guid: 34e055d1fb905cf4b8d486aae9aad5ac, type: 2}
+  - {fileID: 11400000, guid: 6fa8e9710d609a0479e8063d35c2024c, type: 2}

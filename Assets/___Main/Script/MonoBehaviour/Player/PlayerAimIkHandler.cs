@@ -34,4 +34,11 @@ public class PlayerAimIkHandler : MonoBehaviour
 
 
     }
+
+
+    private void Start() { }
+
+
+
+
 }

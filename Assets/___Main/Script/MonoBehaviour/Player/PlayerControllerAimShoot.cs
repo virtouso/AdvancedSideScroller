@@ -44,7 +44,7 @@ public partial class PlayerController : BasePlayerController
     {
         Vector3 shoulderPosition = _characterAnimator.GetBoneTransform(HumanBodyBones.RightShoulder).position;
 
-        Ray ray = Camera.main.ScreenPointToRay(_controllerSettings.LookDirectionControl.Value);
+        Ray ray = Camera.main.ScreenPointToRay(_sharedComponent.ControllerSettings.LookDirectionControl.Value);
         RaycastHit inputRaycastHit;
         Physics.Raycast(ray, out inputRaycastHit, _inputHelperLayerMask);
 
@@ -62,14 +62,14 @@ public partial class PlayerController : BasePlayerController
 
     private void AimStarted()
     {
-        _controllerSettings.DisableInputForAim();
+        _sharedComponent.ControllerSettings.DisableInputForAim();
         _aimingWeight = 1;
         _aiming = true;
     }
 
     private void AimFinished()
     {
-        _controllerSettings.EnableInputAfterAim();
+        _sharedComponent.ControllerSettings.EnableInputAfterAim();
         _aimingWeight = 0;
         _aiming = false;
         if (_pistolCoroutine != null) StopCoroutine(_pistolCoroutine);
@@ -88,11 +88,11 @@ public partial class PlayerController : BasePlayerController
     }
     private void StabKnife(float inputValue)
     {
-        print("knife input value"+inputValue);
+        print("knife input value" + inputValue);
         if (inputValue > 0.5)
         {
             print("stab knife called");
-            _controllerSettings.DisableInputsForKnifeStab();
+            _sharedComponent.ControllerSettings.DisableInputsForKnifeStab();
             _aimingWeight = 0;
             //_characterAnimator.CrossFade(PlayerAnimatorStringReferences.Stab2Animation, _knifeCrossFadeDuration);
             _characterAnimator.Play(PlayerAnimatorStringReferences.Stab2Animation);
@@ -106,7 +106,7 @@ public partial class PlayerController : BasePlayerController
     IEnumerator FinishStabbing()
     {
         yield return new WaitForSeconds(_knifeDuration);
-        _controllerSettings.EnableInputsAfterKnifeStab();
+        _sharedComponent.ControllerSettings.EnableInputsAfterKnifeStab();
         _weaponPlacementDictionary[WeaponType.Knife].Weapon.GetComponent<BoxCollider>().enabled = false;
         _characterAnimator.CrossFade(PlayerAnimatorStringReferences.KnifeIdleAnimation, _knifeCrossFadeDuration);
     }
@@ -117,12 +117,12 @@ public partial class PlayerController : BasePlayerController
     {
         if (inputValue > 0.5)
         {
-            _controllerSettings.DisableInputForShoot();
+            _sharedComponent.ControllerSettings.DisableInputForShoot();
             _pistolCoroutine = StartCoroutine(ShootPistol());
         }
         else
         {
-            _controllerSettings.EnableInputAfterShoot();
+            _sharedComponent.ControllerSettings.EnableInputAfterShoot();
             StopCoroutine(_pistolCoroutine);
         }
     }
@@ -145,12 +145,12 @@ public partial class PlayerController : BasePlayerController
     {
         if (inputValue > 0.5)
         {
-            _controllerSettings.DisableInputForShoot();
+            _sharedComponent.ControllerSettings.DisableInputForShoot();
             _rifleCouroutine = StartCoroutine(ShootRifle());
         }
         else
         {
-            _controllerSettings.EnableInputAfterShoot();
+            _sharedComponent.ControllerSettings.EnableInputAfterShoot();
             StopCoroutine(_rifleCouroutine);
         }
 

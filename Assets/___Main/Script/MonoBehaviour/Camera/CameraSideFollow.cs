@@ -26,7 +26,7 @@ public class CameraSideFollow : MonoBehaviour
 
 
 
-    [Inject] private PlayerController _playerController;
+    [Inject] private PlayerSharedComponent _playerController;
     [SerializeField] private Vector3 _shooterModeOffset;
     [SerializeField] private float _climbModeDistance;
     [SerializeField] private float _lerpSpeed;
@@ -44,8 +44,7 @@ public class CameraSideFollow : MonoBehaviour
 
 
     private void FollowPlayerInShooterMode()
-    {
-        if (_playerController == null) return;
+    { if (_playerController == null) return;
         transform.position = Vector3.MoveTowards(transform.position, _playerController.transform.position + _shooterModeOffset, _lerpSpeed);
         transform.LookAt(_playerController.transform.position);
     }

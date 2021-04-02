@@ -10,6 +10,8 @@ public abstract class BasePlayerController : MonoBehaviour
 {
 
     #region Unity References
+
+    [SerializeField] protected PlayerSharedComponent _sharedComponent;
     [SerializeField] protected CharacterController _controller;
     [SerializeField] private float _rotationSpeed;
     [SerializeField] protected LayerMask _inputHelperLayerMask;
@@ -17,7 +19,7 @@ public abstract class BasePlayerController : MonoBehaviour
     [SerializeField] private PlayerSpeed _playerSpeed;
 
     [SerializeField] private float _speedCoefficient;
-    [SerializeField] protected ControllerSettings _controllerSettings;
+
     [SerializeField] protected PlayerStateHolder _playerCurrentState;
     #endregion
 
@@ -40,7 +42,6 @@ public abstract class BasePlayerController : MonoBehaviour
                 _characterAnimator.SetFloat(PlayerAnimatorStringReferences.MoveState, _playerSpeed.RunSpeed);
                 _moveSpeed = _playerSpeed.RunSpeed;
                 break;
-
         }
     }
 
@@ -61,7 +62,7 @@ public abstract class BasePlayerController : MonoBehaviour
 
     private void ApplyPlayerRotation()
     {
-        Ray ray = Camera.main.ScreenPointToRay(_controllerSettings.LookDirectionControl.Value);
+        Ray ray = Camera.main.ScreenPointToRay(_sharedComponent.ControllerSettings.LookDirectionControl.Value);
         RaycastHit inputRaycastHit;
         Physics.Raycast(ray, out inputRaycastHit, _inputHelperLayerMask);
 
@@ -81,20 +82,20 @@ public abstract class BasePlayerController : MonoBehaviour
 
     private void ApplyPlayerMove()
     {
-        _controller.Move(new Vector3(0, 0, _controllerSettings.MoveControl.Value * _moveSpeed * _speedCoefficient));
+        _controller.Move(new Vector3(0, 0, _sharedComponent.ControllerSettings.MoveControl.Value * _moveSpeed * _speedCoefficient));
         _characterAnimator.SetFloat(PlayerAnimatorStringReferences.SpeedState,
-            _controllerSettings.MoveControl.Value * AnimatorDirectionCoeficient);
+    _sharedComponent.ControllerSettings.MoveControl.Value * AnimatorDirectionCoeficient);
     }
 
     private void ApplyPlayerMoveState()
     {
-        if (_controllerSettings.CrouchControl.Value > 0)
+        if (_sharedComponent.ControllerSettings.CrouchControl.Value > 0)
         {
             UpdatePlayerMoveMode(PlayerMoveMode.Crouch);
             return;
         }
 
-        if (_controllerSettings.RunControl.Value > 0)
+        if (_sharedComponent.ControllerSettings.RunControl.Value > 0)
         {
             UpdatePlayerMoveMode(PlayerMoveMode.Run);
             return;
@@ -108,107 +109,7 @@ public abstract class BasePlayerController : MonoBehaviour
     #endregion
 
 
-    #region Input Callbacks
-    public void OnShoot(InputValue input)
-    {
-        if (!_controllerSettings.AllControls.Enabled) return;
-        if (!_controllerSettings.ShootControl.Enabled) return;
-        _controllerSettings.ShootControl.Value = input.Get<float>();
-        _controllerSettings.ShootControl.Action?.Invoke(input.Get<float>());
-    }
 
-    public void OnVault(InputValue input)
-    {
-        if (!_controllerSettings.AllControls.Enabled) return;
-        if (!_controllerSettings.VaultControl.Enabled) return;
-        _controllerSettings.VaultControl.Value = input.Get<float>();
-        _controllerSettings.VaultControl.Action?.Invoke(input.Get<float>());
-    }
-
-
-
-    public void OnAim(InputValue input)
-    {
-        if (!_controllerSettings.AllControls.Enabled) return;
-        if (!_controllerSettings.AimControl.Enabled) return;
-        _controllerSettings.AimControl.Value = input.Get<float>();
-        _controllerSettings.AimControl.Action?.Invoke(input.Get<float>());
-    }
-
-    public void OnLookDirection(InputValue input)
-    {
-        if (!_controllerSettings.AllControls.Enabled) return;
-        if (!_controllerSettings.LookDirectionControl.Enabled) return;
-        _controllerSettings.LookDirectionControl.Value = input.Get<Vector2>();
-        _controllerSettings.LookDirectionControl.Action?.Invoke(input.Get<Vector2>());
-    }
-
-    public void OnMove(InputValue input)
-    {
-        if (!_controllerSettings.AllControls.Enabled) return;
-        if (!_controllerSettings.MoveControl.Enabled) return;
-        _controllerSettings.MoveControl.Value = input.Get<float>();
-        _controllerSettings.MoveControl.Action?.Invoke(input.Get<float>());
-    }
-
-    public void OnCrouch(InputValue input)
-    {
-        if (!_controllerSettings.AllControls.Enabled) return;
-        if (!_controllerSettings.CrouchControl.Enabled) return;
-        _controllerSettings.CrouchControl.Value = input.Get<float>();
-        _controllerSettings.CrouchControl.Action?.Invoke(input.Get<float>());
-
-    }
-
-    public void OnRun(InputValue input)
-    {
-        if (!_controllerSettings.AllControls.Enabled) return;
-        if (!_controllerSettings.RunControl.Enabled) return;
-        _controllerSettings.RunControl.Value = input.Get<float>();
-        _controllerSettings.RunControl.Action?.Invoke(input.Get<float>());
-    }
-
-    public void OnReload(InputValue input)
-    {
-        if (!_controllerSettings.AllControls.Enabled) return;
-        if (!_controllerSettings.ReloadControl.Enabled) return;
-        _controllerSettings.ReloadControl.Value = input.Get<float>();
-        _controllerSettings.ReloadControl.Action?.Invoke(input.Get<float>());
-    }
-
-    public void OnInteract(InputValue input)
-    {
-        if (!_controllerSettings.AllControls.Enabled) return;
-        if (!_controllerSettings.InteractControl.Enabled) return;
-        _controllerSettings.InteractControl.Value = input.Get<float>();
-        _controllerSettings.InteractControl.Action?.Invoke(input.Get<float>());
-    }
-
-
-    public void OnSelectPrimary(InputValue input)
-    {
-        if (!_controllerSettings.AllControls.Enabled) return;
-        if (!_controllerSettings.SelectPrimaryControl.Enabled) return;
-        _controllerSettings.SelectPrimaryControl.Value = input.Get<float>();
-        _controllerSettings.SelectPrimaryControl.Action?.Invoke(input.Get<float>());
-    }
-
-    public void OnSelectSecondary(InputValue input)
-    {
-        if (!_controllerSettings.AllControls.Enabled) return;
-        if (!_controllerSettings.SelectPrimaryControl.Enabled) return;
-        _controllerSettings.SelectSecondaryControl.Value = input.Get<float>();
-        _controllerSettings.SelectSecondaryControl.Action?.Invoke(input.Get<float>());
-    }
-
-    public void OnSelectMelee(InputValue input)
-    {
-        if (!_controllerSettings.AllControls.Enabled) return;
-        if (!_controllerSettings.SelectMeleeControl.Enabled) return;
-        _controllerSettings.SelectMeleeControl.Value = input.Get<float>();
-        _controllerSettings.SelectMeleeControl.Action?.Invoke(input.Get<float>());
-    }
-    #endregion
 
 
     #region Unity Callbacks
@@ -295,6 +196,7 @@ public class ControllerSettings
     [SerializeField] public ControlFloat ShootControl;
     [SerializeField] public ControlFloat AimControl;
     [SerializeField] public ControlFloat MoveControl;
+    [SerializeField] public ControlFloat VerticalMoveControl;
     [SerializeField] public ControlFloat CrouchControl;
     [SerializeField] public ControlFloat RunControl;
     [SerializeField] public ControlVector2 LookDirectionControl;
@@ -303,6 +205,7 @@ public class ControllerSettings
     [SerializeField] public ControlFloat SelectPrimaryControl;
     [SerializeField] public ControlFloat SelectSecondaryControl;
     [SerializeField] public ControlFloat SelectMeleeControl;
+    [SerializeField] public ControlFloat SelectDrone;
     [SerializeField] public ControlFloat VaultControl;
 
 
@@ -393,11 +296,11 @@ public class ControllerSettings
         this.SelectSecondaryControl.Enabled = true;
     }
 
- 
+
 
     public void DisableInputForShoot()
     {
-       // this.AimControl.Enabled = false;
+        // this.AimControl.Enabled = false;
         this.InteractControl.Enabled = false;
         this.ReloadControl.Enabled = false;
         this.SelectMeleeControl.Enabled = false;
@@ -407,13 +310,13 @@ public class ControllerSettings
 
     public void EnableInputAfterShoot()
     {
-      //  this.AimControl.Enabled = false;
+        //  this.AimControl.Enabled = false;
         this.InteractControl.Enabled = false;
         this.ReloadControl.Enabled = false;
         this.SelectMeleeControl.Enabled = false;
         this.SelectPrimaryControl.Enabled = false;
         this.SelectSecondaryControl.Enabled = false;
-    } 
+    }
 
 }
 
