@@ -16,6 +16,7 @@ public class PlayerClimbStateController : MonoBehaviour
 
     [SerializeField] private Vector3 _distanceFromLadder;
     [SerializeField] private float _stateTime;
+    [SerializeField] private float _takeOffTime;
     [SerializeField] private float _moveJointSpeed;
     private Ladder _climbingLadder;
 
@@ -34,7 +35,7 @@ public class PlayerClimbStateController : MonoBehaviour
             new GameObject("Right Foot Goal").transform,
             new GameObject("Body Goal").transform,
             new GameObject("Left Hand Goal").transform,
-            new GameObject("left Foot Goal").transform);
+            new GameObject("left Foot Goal").transform, 1);
         StartCoroutine(Grab());
 
     }
@@ -49,7 +50,7 @@ public class PlayerClimbStateController : MonoBehaviour
             new GameObject("Right Foot Goal").transform,
             new GameObject("Body Goal").transform,
             new GameObject("Left Hand Goal").transform,
-            new GameObject("left Foot Goal").transform);
+            new GameObject("left Foot Goal").transform, 1);
         StartCoroutine(Grab());
     }
 
@@ -87,7 +88,10 @@ public class PlayerClimbStateController : MonoBehaviour
         _aimHandler.enabled = true;
         _footHandler.enabled = true;
         _ladderHandler.enabled = false;
-
+        _animator.transform.localPosition = new Vector3(0, -1.03f, 0);
+        _sharedComponent.PlayerNormalState.enabled = true;
+        _sharedComponent.CharacterController.enabled = true;
+        _sharedComponent.PlayerClimbState.enabled = false;
     }
 
 
@@ -232,6 +236,7 @@ public class PlayerClimbStateController : MonoBehaviour
     private IEnumerator TakeOff(JointPlacingHelper.LadderState ladderState)
     {
         Transform goalTransform = null;
+        print("take off called::::" + ladderState.ToString());
         switch (ladderState)
         {
             case JointPlacingHelper.LadderState.DownLadder:
@@ -243,12 +248,16 @@ public class PlayerClimbStateController : MonoBehaviour
 
         }
 
+        float timer = 0;
 
-        float distance = (goalTransform.position - transform.position).sqrMagnitude;
-        while (distance > _moveJointSpeed * _moveJointSpeed)
+        while (timer < _takeOffTime)
         {
+            timer += Time.deltaTime;
+            JointPlacing.BodyGoal.position = Vector3.MoveTowards(JointPlacing.BodyGoal.position, goalTransform.position, _moveJointSpeed);
+
+            JointPlacing.IkWeight = Mathf.Lerp(JointPlacing.IkWeight, 0, 0.05f);
+            print("moving to ladder ending position");
             yield return new WaitForEndOfFrame();
-            transform.position = Vector3.MoveTowards(transform.position,goalTransform.position,_moveJointSpeed);
         }
         FinishClimbing();
 
@@ -282,7 +291,7 @@ public class PlayerClimbStateController : MonoBehaviour
 public class JointPlacingHelper
 {
     public enum LadderState { OnLadder, DownLadder, UpLadder }
-    public JointPlacingHelper(int bodyIndex, int rightFootIndex, int rightHandIndex, int leftFootIndex, int leftHandIndex, Transform rightHandGoal, Transform rightFootGoal, Transform bodyGoal, Transform leftHandGoal, Transform leftFootGoal)
+    public JointPlacingHelper(int bodyIndex, int rightFootIndex, int rightHandIndex, int leftFootIndex, int leftHandIndex, Transform rightHandGoal, Transform rightFootGoal, Transform bodyGoal, Transform leftHandGoal, Transform leftFootGoal, float ikWeight)
     {
         BodyIndex = bodyIndex;
         RightFootIndex = rightFootIndex;
@@ -294,6 +303,7 @@ public class JointPlacingHelper
         BodyGoal = bodyGoal;
         LeftHandGoal = leftHandGoal;
         LeftFootGoal = leftFootGoal;
+        IkWeight = ikWeight;
     }
 
 
@@ -405,6 +415,7 @@ public class JointPlacingHelper
     public Transform BodyGoal;
     public Transform LeftHandGoal;
     public Transform LeftFootGoal;
+    public float IkWeight;
 }
 enum ClimbLadderState
 {

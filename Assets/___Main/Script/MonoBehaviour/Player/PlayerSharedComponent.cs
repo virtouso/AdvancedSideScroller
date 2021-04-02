@@ -8,7 +8,7 @@ public class PlayerSharedComponent : MonoBehaviour
     [SerializeField] public ControllerSettings ControllerSettings;
     [SerializeField] public PlayerController PlayerNormalState;
     [SerializeField] public PlayerClimbStateController PlayerClimbState;
-
+    [SerializeField] public CharacterController CharacterController;
     [SerializeField] private LayerMask _climbLayer;
     [SerializeField] private float _distanceToCheckForClimb;
 

@@ -21,10 +21,10 @@ public class PlayerLadderIkHandler : MonoBehaviour
         if (_climbPlacing.JointPlacing == null) return;
 
 
-        _animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
-        _animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
-        _animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-        _animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
+        _animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, _climbPlacing.JointPlacing.IkWeight);
+        _animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, _climbPlacing.JointPlacing.IkWeight);
+        _animator.SetIKPositionWeight(AvatarIKGoal.RightHand, _climbPlacing.JointPlacing.IkWeight);
+        _animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, _climbPlacing.JointPlacing.IkWeight);
 
         _animator.SetIKPosition(AvatarIKGoal.RightHand, _climbPlacing.JointPlacing.RightHandGoal.position);
         _animator.SetIKPosition(AvatarIKGoal.RightFoot, _climbPlacing.JointPlacing.RightFootGoal.position);
