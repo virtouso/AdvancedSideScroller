@@ -119,7 +119,9 @@ public class PlayerClimbStateController : MonoBehaviour
 
     private IEnumerator ClimbLerp(bool up)
     {
-        float timer = 0;
+        float timer1 = 0;
+        float timer2 = 0;
+        float timer3 = 0;
         JointPlacingHelper.LadderState climbState = JointPlacing.UpdateIndex(up, _climbingLadder);
         if (climbState != JointPlacingHelper.LadderState.OnLadder)
         {
@@ -128,9 +130,9 @@ public class PlayerClimbStateController : MonoBehaviour
         }
 
 
-        while (timer < _stateTime)
+        while (timer1 < _stateTime)
         {
-            timer += Time.deltaTime;
+            timer1 += Time.deltaTime;
 
             yield return new WaitForEndOfFrame();
             JointPlacing.RightHandGoal.position = Vector3.MoveTowards(
@@ -146,8 +148,22 @@ public class PlayerClimbStateController : MonoBehaviour
                     _climbingLadder.Rungs[JointPlacing.RightFootIndex].position.y,
                     _climbingLadder.Rungs[JointPlacing.RightFootIndex].position.z),
                 _moveJointSpeed);
-
-
+        }
+        while (timer2 < _stateTime)
+        {
+            timer2 += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+            JointPlacing.BodyGoal.position = Vector3.MoveTowards(
+                JointPlacing.BodyGoal.position,
+                _climbingLadder.Rungs[JointPlacing.BodyIndex].position +
+                ((transform.position.z - _climbingLadder.transform.position.z) /
+                 Mathf.Abs((transform.position.z - _climbingLadder.transform.position.z))) * _distanceFromLadder,
+                _moveJointSpeed);
+        }
+        while (timer3 < _stateTime)
+        {
+            timer3 += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
             JointPlacing.LeftHandGoal.position = Vector3.MoveTowards(
                 JointPlacing.LeftHandGoal.position,
                 new Vector3(_climbingLadder.LeftSide.position.x,
@@ -161,13 +177,11 @@ public class PlayerClimbStateController : MonoBehaviour
                     _climbingLadder.Rungs[JointPlacing.LeftFootIndex].position.y,
                     _climbingLadder.Rungs[JointPlacing.LeftFootIndex].position.z),
                 _moveJointSpeed);
-
-            JointPlacing.BodyGoal.position = Vector3.MoveTowards(
-                JointPlacing.BodyGoal.position,
-                _climbingLadder.Rungs[JointPlacing.BodyIndex].position +
-               ((transform.position.z - _climbingLadder.transform.position.z) / Mathf.Abs((transform.position.z - _climbingLadder.transform.position.z))) * _distanceFromLadder,
-                _moveJointSpeed);
         }
+
+
+
+
         _canMove = true;
     }
 
