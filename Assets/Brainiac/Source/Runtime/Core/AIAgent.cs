@@ -11,7 +11,7 @@ namespace Brainiac
 
 
         [SerializeField]
-        public Zombie _zombie;
+        public Zombie Zombie;
         [SerializeField]
         private BTAsset m_behaviourTree;
         [SerializeField]
