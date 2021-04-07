@@ -8,29 +8,54 @@ public class ZombieGoIdle : Brainiac.Action
 
 
 
-	protected override BehaviourNodeStatus OnExecute(AIAgent agent)
+    protected override BehaviourNodeStatus OnExecute(AIAgent agent)
     {
         //todo check hear sound
-        float distanceToHuman = agent.Zombie.Configuration.DistanceToHearHuman *
-                                agent.Zombie.Configuration.DistanceToHearHuman;
 
-        bool playerSeen= agent.Blackboard.GetItem<bool>("player_seen",false);
-        bool playerHeard = agent.Blackboard.GetItem<bool>("player_heard", false);
 
-        if (playerSeen|| playerHeard)
+        bool playerSeen = agent.Blackboard.GetItem<bool>(ZombieStringReferences.PlayerSeen, false);
+        bool playerHeard = agent.Blackboard.GetItem<bool>(ZombieStringReferences.PlayerHeard, false);
+
+        if (playerSeen || playerHeard)
         {
             return BehaviourNodeStatus.Failure;
         }
 
-
-        if ((agent.transform.position - agent.Zombie.Position).sqrMagnitude < distanceToHuman)
+        float distanceToHuman = agent.Zombie.Configuration.DistanceToHearHuman *
+                                agent.Zombie.Configuration.DistanceToHearHuman;
+        if ((agent.Zombie.PlayerReference.transform.position - agent.Zombie.Position).sqrMagnitude < distanceToHuman)
         {
+            agent.Blackboard.SetItem(ZombieStringReferences.PlayerHeard, true);
+            return BehaviourNodeStatus.Failure;
+        }
+
+        RaycastHit hit;
+        bool checkPlayer = Physics.Raycast(agent.transform.position, agent.transform.forward, out hit, agent.Zombie.Configuration.DistanceToSeeHuman, agent.Zombie.DetectionMask);
+        if (checkPlayer)
+        {
+            if (hit.transform.name == ZombieStringReferences.HuntingGoal)
+            {
+                agent.Blackboard.SetItem(ZombieStringReferences.PlayerSeen, true);
+                return BehaviourNodeStatus.Failure;
+            }
 
         }
 
+        return BehaviourNodeStatus.None;
 
-        //todo check seeing player
-
-        UnityEngine.Debug.Log("Go Idle Is running");
     }
+
+
+
+    private void UpdateTransform(AIAgent agent)
+    {
+        agent.transform.rotation = Quaternion.Euler((
+            new Vector3(agent.Zombie.PlayerReference.transform.position.x,agent.transform.position.y, agent.Zombie.PlayerReference.transform.position.z) -
+            agent.transform.position).normalized);
+        agent.Zombie.Animator.SetTrigger();
+    }
+
+
+
+
 }

@@ -8,6 +8,10 @@ public class ZombieAttackWalking : Brainiac.Action
 	protected override BehaviourNodeStatus OnExecute(AIAgent agent)
     {
         Debug.Log("ZombieAttackWalking");
+
+
+
+
         return BehaviourNodeStatus.None;
 	}
 }

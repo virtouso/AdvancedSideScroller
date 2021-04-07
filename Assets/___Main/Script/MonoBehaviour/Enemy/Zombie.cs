@@ -8,14 +8,14 @@ public class Zombie : EnemyControllerBase
 {
     public override Vector3 Position => transform.position;
     [SerializeField] public ZombieConfiguration Configuration;
+    [SerializeField] public LayerMask DetectionMask;
+    [Inject] public PlayerController PlayerReference;
 
-
-  
 
     protected override void Awake()
     {
         base.Awake();
-  
+
     }
 
     protected override void Update()
