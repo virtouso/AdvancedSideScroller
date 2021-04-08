@@ -9,6 +9,11 @@ public static class ZombieStringReferences
     //AI blackboard
     public static string PlayerSeen = "player_seen";
     public static string PlayerHeard = "player_heard";
+    public static string Alerted = "alerted";
+    public static string Died = "died";
+    public static string FinalAttack = "final_attack";
+    public static string Finished = "finished";
+
     //Animator
     public static string Dying = "dying";
     public static string Idle="idle";

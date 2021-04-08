@@ -10,8 +10,18 @@ public abstract class EnemyControllerBase : MonoBehaviour
     [SerializeField] public Animator Animator;
     [Inject] public PlayerController PlayerController;
 
+    public int CurrentHealth;
 
     private Rigidbody[] _bodyParts;
+
+
+
+    public abstract void ApplyDamage(int amount);
+
+
+
+
+
     protected virtual void Awake()
     {
         _bodyParts = transform.GetComponentsInChildren<Rigidbody>();
@@ -21,23 +31,22 @@ public abstract class EnemyControllerBase : MonoBehaviour
     protected virtual void Update()
     {
 
-      
+
 
 
     }
 
 
-    public void SwitchToRagdoll()
+    private void SwitchToRagdoll()
     {
         for (int i = 0; i < _bodyParts.Length; i++)
         {
             _bodyParts[i].isKinematic = false;
         }
-
         Animator.enabled = false;
     }
 
-    public void SwitchToAnimation()
+    private void SwitchToAnimation()
     {
         for (int i = 0; i < _bodyParts.Length; i++)
         {

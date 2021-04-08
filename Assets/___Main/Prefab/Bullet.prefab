@@ -160,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hitLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 131072
   _lifeTime: 1
   _rayCastLength: 0.002
   _speed: 20

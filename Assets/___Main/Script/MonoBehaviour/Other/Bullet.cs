@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-
+    [SerializeField] private int _damageAmount;
     public void Shoot(Vector3 position, Quaternion rotation, Vector3 moveDirection)
     {
-       
+
         transform.position = position;
         transform.rotation = rotation;
         _rigidBody.velocity = moveDirection * _speed;
@@ -31,10 +31,12 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         Ray ray = new Ray(transform.position, transform.forward);
-        bool hasHit = Physics.Raycast(ray, _rayCastLength, _hitLayerMask);
+        RaycastHit hit;
+        bool hasHit = Physics.Raycast(ray, out hit, _rayCastLength, _hitLayerMask);
         if (hasHit)
         {
-            //todo apply hit
+            hit.transform.GetComponent<EnemyControllerBase>().ApplyDamage(_damageAmount);
+            gameObject.SetActive(false);
         }
     }
 
