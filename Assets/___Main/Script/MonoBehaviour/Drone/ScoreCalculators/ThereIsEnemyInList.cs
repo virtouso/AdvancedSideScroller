@@ -10,7 +10,7 @@ public class ThereIsEnemyInList : ScoreCalculatorBase
 {
     public override int Execute(DroneEnvironmentKnowledge knowledge)
     {
-        if (knowledge.EnemiesInRange.Count <= 0) return 0;
+        if (knowledge.EnemiesInRange.Count <= 0) return -1*_score;
         return _score;
     }
 }

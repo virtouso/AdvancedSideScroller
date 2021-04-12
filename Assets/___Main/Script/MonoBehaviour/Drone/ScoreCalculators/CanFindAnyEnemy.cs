@@ -12,19 +12,31 @@ public class CanFindAnyEnemy : ScoreCalculatorBase
     {
 
         var enemyColliders = Physics.OverlapSphere(knowledge.BotTransform.position, _range, _detectionLayer);
+        UnityEngine.Debug.Log("number of detected enemies:::" + enemyColliders.Length);
 
-        if (enemyColliders.Length <= 0)
+
+        // if (knowledge.EnemiesInRange.Count > 0) return -1 * _score;
+
+        if (enemyColliders.Length > 0)
         {
+
+            List<EnemyControllerBase> enemies = new List<EnemyControllerBase>();
+
+            foreach (var enemyCollider in enemyColliders)
+            {
+                var enemy = enemyCollider.transform.root.GetComponent<EnemyControllerBase>();
+                if (enemies.Contains(enemy))
+                    continue;
+                enemies.Add(enemy);
+                knowledge.EnemiesInRange = enemies;
+                Debug.Log("enemies number::::" + enemies.Count);
+            }
+
             return -1 * _score;
         }
 
 
-        List<EnemyControllerBase> enemies = new List<EnemyControllerBase>();
 
-        foreach (var enemyCollider in enemyColliders)
-        {
-            enemies.Add(enemyCollider.GetComponent<EnemyControllerBase>());
-        }
 
         return _score;
     }

@@ -51,9 +51,8 @@ public class ZombieGoIdle : Brainiac.Action
 
     private void UpdateTransform(AIAgent agent)
     {
-        agent.transform.rotation = Quaternion.Euler((
-            new Vector3(agent.Zombie.PlayerReference.transform.position.x,agent.transform.position.y, agent.Zombie.PlayerReference.transform.position.z) -
-            agent.transform.position).normalized);
+      
+        agent.transform.LookAt(new Vector3(agent.Zombie.PlayerReference.transform.position.x, agent.transform.position.y, agent.Zombie.PlayerReference.transform.position.z));
         agent.Zombie.Animator.SetTrigger(ZombieStringReferences.Walk);
     }
 

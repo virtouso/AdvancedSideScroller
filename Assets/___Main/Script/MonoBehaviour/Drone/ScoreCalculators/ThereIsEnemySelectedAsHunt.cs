@@ -9,7 +9,15 @@ public class ThereIsEnemySelectedAsHunt : ScoreCalculatorBase
 {
     public override int Execute(DroneEnvironmentKnowledge knowledge)
     {
-        if (knowledge.HuntingEnemy != null) return -1 *_score;
-        return _score;
+
+
+        if (knowledge.HuntingEnemy == null && knowledge.EnemiesInRange.Count > 0)
+        {
+            
+            return _score;
+        };
+
+
+        return -1 * _score;
     }
 }

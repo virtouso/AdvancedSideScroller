@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d675dac4c5ee21e4d97c5eb9f18ed658, type: 3}
   m_Name: ThereIsEnemySelectedAsHunt
   m_EditorClassIdentifier: 
-  _score: 20
+  _score: 60

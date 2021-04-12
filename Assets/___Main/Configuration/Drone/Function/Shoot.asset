@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Shoot
   m_EditorClassIdentifier: 
   _scoreCalculator:
-  - {fileID: 11400000, guid: 2680824e3727b5941b14983bc7e7df5c, type: 2}
+  - {fileID: 11400000, guid: fc7aca407f7963c44aab23fff28b44a2, type: 2}
   - {fileID: 11400000, guid: 00ed93d0aaf1aa042abf2d9b1d16e124, type: 2}
   - {fileID: 11400000, guid: 7b52fca7ebe08c24f819af2602bc6fd0, type: 2}

@@ -30,12 +30,14 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        Ray ray = new Ray(transform.position, transform.forward);
+        Ray ray = new Ray(transform.position, _rigidBody.velocity.normalized);
+     
         RaycastHit hit;
         bool hasHit = Physics.Raycast(ray, out hit, _rayCastLength, _hitLayerMask);
         if (hasHit)
         {
-            hit.transform.GetComponent<EnemyControllerBase>().ApplyDamage(_damageAmount);
+            print("hit the anemy");
+            hit.transform.root.GetComponent<EnemyControllerBase>().ApplyDamage(_damageAmount);
             gameObject.SetActive(false);
         }
     }

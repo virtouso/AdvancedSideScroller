@@ -108,17 +108,23 @@ public class PlayerClimbStateController : MonoBehaviour
     private void GetClimbInput(float input)
     {
         this._input = input;
+        print(input);
     }
 
-    private IEnumerator Climb(float input)
+    private IEnumerator Climb()
     {
-        _canMove = false;
-        if (input > 0) yield return StartCoroutine(ClimbLerp(true));
-        if (input < 0) yield return StartCoroutine(ClimbLerp(false));
+        print("climb get called" + _input);
+        //  _canMove = false;
+
+
+        if (_input > 0) yield return StartCoroutine(ClimbLerp(true));
+        if (_input < 0) yield return StartCoroutine(ClimbLerp(false));
     }
 
     private IEnumerator ClimbLerp(bool up)
     {
+        _canMove = false;
+        print("climb lerp called");
         float timer1 = 0;
         float timer2 = 0;
         float timer3 = 0;
@@ -133,7 +139,7 @@ public class PlayerClimbStateController : MonoBehaviour
         while (timer1 < _stateTime)
         {
             timer1 += Time.deltaTime;
-
+            print(timer1);
             yield return new WaitForEndOfFrame();
             JointPlacing.RightHandGoal.position = Vector3.MoveTowards(
                 JointPlacing.RightHandGoal.position,
@@ -151,6 +157,7 @@ public class PlayerClimbStateController : MonoBehaviour
         }
         while (timer2 < _stateTime)
         {
+            print(timer2);
             timer2 += Time.deltaTime;
             yield return new WaitForEndOfFrame();
             JointPlacing.BodyGoal.position = Vector3.MoveTowards(
@@ -162,6 +169,7 @@ public class PlayerClimbStateController : MonoBehaviour
         }
         while (timer3 < _stateTime)
         {
+            print(timer3);
             timer3 += Time.deltaTime;
             yield return new WaitForEndOfFrame();
             JointPlacing.LeftHandGoal.position = Vector3.MoveTowards(
@@ -291,7 +299,7 @@ public class PlayerClimbStateController : MonoBehaviour
 
         if (!_canMove) return;
 
-        StartCoroutine(Climb(_input));
+        StartCoroutine(Climb());
     }
 
     #endregion

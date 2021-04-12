@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3332b6caef41c114b8cc22b65ec394f4, type: 3}
   m_Name: Drone Configuration
   m_EditorClassIdentifier: 
-  AllowedDistanceToShoot: 7
+  AllowedDistanceToShoot: 20
   AllowedDistanceToMoveHorizontally: 7
   AllowedDistanceToMoveVertically: 7
   ThresholdOverEnemy: 7
   ThresholdUnderEnemy: 7
-  ThresholdToDetectEnemy: 20
+  ThresholdToDetectEnemy: 30
   FireRate: 0.5
   AscendSpeed: 0.3
   DescendSpeed: 0.5

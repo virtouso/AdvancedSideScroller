@@ -1,6 +1,9 @@
 # AdvancedSideScroller
 
 Its a practice project to test many game-play features beside each other.</br>
+Certainly there are bugs and unhandled situatins as its only a test.</br>
+
+it's a short demonstration of gameplay:   https://youtu.be/GhCNINCwEpA   </br>
 
 The System Includes:</br>
 

@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02799b15fcd417c4dbdd1d8fd1df74be, type: 3}
-  m_Name: Cant Find Any Enemy
+  m_Script: {fileID: 11500000, guid: 67f768c0cd7e0434c90c527e0b8faabb, type: 3}
+  m_Name: ThereIsEnemyTo Shoot
   m_EditorClassIdentifier: 
   _score: 100
-  _detectionLayer:
-    serializedVersion: 2
-    m_Bits: 131072
-  _range: 40

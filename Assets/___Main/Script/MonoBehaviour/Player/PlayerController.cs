@@ -43,7 +43,7 @@ public partial class PlayerController : BasePlayerController
     [SerializeField] private float _vaultMoveTime;
     [SerializeField] private float _vaultCrossFadeLength;
     [SerializeField] private PlayerFootIkHandler _playerFootIkHandler;
-    [SerializeField] private GameObject _dronePrefab;
+    [SerializeField] private GameObject _drone;
     [SerializeField] private Vector3 _droneInstantiationOffset;
     private void Vault(float inputValue)
     {
@@ -54,7 +54,7 @@ public partial class PlayerController : BasePlayerController
 
     private IEnumerator Vaulting()
     {
-       _sharedComponent. ControllerSettings.DisableAllControls();
+        _sharedComponent.ControllerSettings.DisableAllControls();
         _characterAnimator.SetLayerWeight(3, 1);
         _characterAnimator.SetLayerWeight(1, 0);
         _characterAnimator.SetLayerWeight(2, 0);
@@ -62,7 +62,7 @@ public partial class PlayerController : BasePlayerController
         _controller.enabled = false;
         float counter = 0;
         _playerFootIkHandler.UppdateFootIk(0, FootIkState.DontApply);
-    _sharedComponent.ControllerSettings.MoveControl.Value = 0;
+        _sharedComponent.ControllerSettings.MoveControl.Value = 0;
 
         while (counter < _vaultMoveTime)
         {
@@ -79,7 +79,7 @@ public partial class PlayerController : BasePlayerController
 
         _playerFootIkHandler.UppdateFootIk(1, FootIkState.Apply);
         _controller.enabled = true;
-      _sharedComponent.  ControllerSettings.EnableAllControls();
+        _sharedComponent.ControllerSettings.EnableAllControls();
 
     }
 
@@ -129,7 +129,10 @@ public partial class PlayerController : BasePlayerController
 
     private void ReleaseDrone(float inputValue)
     {
-        Instantiate(_dronePrefab, _droneInstantiationOffset, Quaternion.identity);
+
+        _drone.SetActive(true);
+        _drone.GetComponent<DroneController>().Init();
+        _drone.transform.position = transform.position + _droneInstantiationOffset;
     }
 
     private void ChangeWeaponTo(WeaponType weaponType)
@@ -156,11 +159,11 @@ public partial class PlayerController : BasePlayerController
 
     private IEnumerator ChangeWeapon()
     {
-    _sharedComponent.ControllerSettings.DisableInputForChangeWeapon();
+        _sharedComponent.ControllerSettings.DisableInputForChangeWeapon();
         yield return StartCoroutine(PutAwayWeapon());
         yield return StartCoroutine(DrawWeapon());
         _onWeaponReady?.Invoke();
-       _sharedComponent.ControllerSettings.EnableInputAfterChangeWeapon();
+        _sharedComponent.ControllerSettings.EnableInputAfterChangeWeapon();
     }
 
     private IEnumerator PutAwayWeapon()
@@ -278,7 +281,7 @@ public partial class PlayerController : BasePlayerController
         //todo temp
         if (_playerCurrentState.CurrentHandlingWeapon == WeaponType.Knife) return;
         _playerCurrentState.UpdatePlayerState(false, true, false, _playerCurrentState.CurrentHandlingWeapon);
-      _sharedComponent.ControllerSettings.DisableInputForReload();
+        _sharedComponent.ControllerSettings.DisableInputForReload();
         _reloadAction?.Invoke(inputValue);
         StartCoroutine(ReloadWeapon());
 
@@ -291,7 +294,7 @@ public partial class PlayerController : BasePlayerController
         float animationLength = 2.5f;
         yield return new WaitForSeconds(animationLength);
         _characterAnimator.CrossFade(PlayerAnimatorStringReferences.KnifeIdleAnimation, _weaponChangeCrossFadeLength);
-      _sharedComponent.  ControllerSettings.EnableInputAfterReload();
+        _sharedComponent.ControllerSettings.EnableInputAfterReload();
     }
 
     private void ReloadMelee(float inputValue)
@@ -317,15 +320,15 @@ public partial class PlayerController : BasePlayerController
 
     private void InitInputCallbacks()
     {
-     _sharedComponent.ControllerSettings.SelectPrimaryControl.Action += SelectRifle;
-     _sharedComponent.ControllerSettings.SelectSecondaryControl.Action += SelectPistol;
-     _sharedComponent.ControllerSettings.SelectMeleeControl.Action += SelectKnife;
-     _sharedComponent.ControllerSettings.ReloadControl.Action += Reload;
-     _sharedComponent.ControllerSettings.VaultControl.Action += Vault;
-     _sharedComponent.ControllerSettings.AimControl.Action += Aim;
-     _sharedComponent.ControllerSettings.ShootControl.Action += Shoot;
-     _sharedComponent.ControllerSettings.LookDirectionControl.Action += OnAimPosition;
-     _sharedComponent.ControllerSettings.SelectDrone.Action += ReleaseDrone;
+        _sharedComponent.ControllerSettings.SelectPrimaryControl.Action += SelectRifle;
+        _sharedComponent.ControllerSettings.SelectSecondaryControl.Action += SelectPistol;
+        _sharedComponent.ControllerSettings.SelectMeleeControl.Action += SelectKnife;
+        _sharedComponent.ControllerSettings.ReloadControl.Action += Reload;
+        _sharedComponent.ControllerSettings.VaultControl.Action += Vault;
+        _sharedComponent.ControllerSettings.AimControl.Action += Aim;
+        _sharedComponent.ControllerSettings.ShootControl.Action += Shoot;
+        _sharedComponent.ControllerSettings.LookDirectionControl.Action += OnAimPosition;
+        _sharedComponent.ControllerSettings.SelectDrone.Action += ReleaseDrone;
     }
     private void InitWeaponInstances()
     {

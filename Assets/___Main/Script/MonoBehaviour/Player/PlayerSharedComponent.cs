@@ -14,10 +14,15 @@ public class PlayerSharedComponent : MonoBehaviour
 
     private void CheckForClimbState(float input)
     {
+
+        if (PlayerClimbState.enabled) return;
+
         RaycastHit hitForward;
         RaycastHit hitDownward;
         bool climbableForward = Physics.Raycast(transform.position, transform.forward, out hitForward, _distanceToCheckForClimb, _climbLayer);
         bool climbableDownward = Physics.Raycast(transform.position, Vector3.down, out hitDownward, _distanceToCheckForClimb, _climbLayer);
+
+
 
         if (climbableDownward)
         {

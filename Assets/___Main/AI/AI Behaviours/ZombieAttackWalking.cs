@@ -16,11 +16,15 @@ public class ZombieAttackWalking : Brainiac.Action
 
         if (agent.Zombie.CurrentHealth < agent.Zombie.Configuration.HealthIntervals[ZombieStringReferences.Alerted])
         {
+            
+
             agent.Blackboard.SetItem(ZombieStringReferences.Alerted,true);
             agent.Zombie.Animator.SetTrigger(ZombieStringReferences.Run);
+
+
             return BehaviourNodeStatus.Failure;
         }
-
+        agent.transform.LookAt(new Vector3(agent.Zombie.PlayerReference.transform.position.x, agent.transform.position.y, agent.Zombie.PlayerReference.transform.position.z));
         return BehaviourNodeStatus.None;
 
 

@@ -8,6 +8,7 @@ public abstract class EnemyControllerBase : MonoBehaviour
 {
     public abstract Vector3 Position { get; }
     [SerializeField] public Animator Animator;
+    [SerializeField] public GameObject Plane;
     [Inject] public PlayerController PlayerController;
 
     public int CurrentHealth;
@@ -37,16 +38,17 @@ public abstract class EnemyControllerBase : MonoBehaviour
     }
 
 
-    private void SwitchToRagdoll()
+    public void SwitchToRagdoll()
     {
         for (int i = 0; i < _bodyParts.Length; i++)
         {
             _bodyParts[i].isKinematic = false;
         }
         Animator.enabled = false;
+        Plane.SetActive(false);
     }
 
-    private void SwitchToAnimation()
+    public void SwitchToAnimation()
     {
         for (int i = 0; i < _bodyParts.Length; i++)
         {

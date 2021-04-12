@@ -7,17 +7,19 @@ using Zenject;
 [CreateAssetMenu(fileName = "Shoot", menuName = "Moeen Assets/Drone Functions/ Shoot", order = int.MaxValue)]
 public class Shoot : BotFunctionBase
 {
-    [Inject] private PoolManager _poolManager;
+
 
     private float shootTimer;
     public override void Execute(DroneEnvironmentKnowledge knowledge)
     {
-        Vector3 goalRotation = (knowledge.HuntingEnemy.Position - knowledge.BotTransform.position).normalized;
-        knowledge.GunMuzzle.rotation = Quaternion.FromToRotation(knowledge.GunMuzzle.eulerAngles, goalRotation);
+        if (knowledge.HuntingEnemy == null) return;
         shootTimer += Time.deltaTime;
+        Vector3 goalRotation = (knowledge.HuntingEnemy.Position - knowledge.BotTransform.position).normalized;
+
 
         if (shootTimer < knowledge.DroneConfiguration.FireRate) return;
         shootTimer = 0;
-        var bullet = _poolManager.ShootBullet(knowledge.GunMuzzle.position += knowledge.GunMuzzle.forward * 3, Quaternion.identity, knowledge.GunMuzzle.forward);
+        Vector3 goalDirection = (knowledge.HuntingEnemy.Position - knowledge.BotTransform.position).normalized;
+        var bullet = knowledge.BotTransform.GetComponent<DroneController>().PoolManager.ShootBullet(knowledge.BotTransform.position, Quaternion.identity, goalDirection);
     }
 }

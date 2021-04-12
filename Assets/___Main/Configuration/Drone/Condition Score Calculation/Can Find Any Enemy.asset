@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366f925e3947ab14186e676527be004c, type: 3}
   m_Name: Can Find Any Enemy
   m_EditorClassIdentifier: 
-  _score: 20
+  _score: 100
   _detectionLayer:
     serializedVersion: 2
     m_Bits: 131072
-  _range: 20
+  _range: 40

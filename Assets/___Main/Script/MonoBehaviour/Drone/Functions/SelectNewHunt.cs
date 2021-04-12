@@ -12,6 +12,7 @@ public class SelectNewHunt : BotFunctionBase
     {
         // todo for now its just rudimentary
         knowledge.HuntingEnemy = FindNearestEnemy(knowledge);
+    //    Debug.LogError("select new hunt"+ knowledge.HuntingEnemy.name);
     }
 
 
@@ -24,6 +25,11 @@ public class SelectNewHunt : BotFunctionBase
         for (int i = 0; i < knowledge.EnemiesInRange.Count; i++)
         {
             float distance = (knowledge.EnemiesInRange[i].Position - knowledge.BotTransform.position).sqrMagnitude;
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestEnemy = knowledge.EnemiesInRange[i];
+            }
         }
 
         return nearestEnemy;
